@@ -90,3 +90,11 @@ def chunk_fixed_size(text, chunk_size):
     # words = text.split()
     return [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
 
+# Step 7 - chunk_by_tokens
+def chunk_by_tokens(text, tokenizer, max_tokens):
+    if not text:
+        return []
+    # TODO: split text into chunks of at most max_tokens token ids using the tokenizer
+    tokens = tokenizer.encode(text)
+    return [tokenizer.decode(tokens[i:i+max_tokens]) for i in range(0, len(tokens), max_tokens)]
+
