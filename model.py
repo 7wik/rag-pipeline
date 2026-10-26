@@ -78,3 +78,9 @@ def normalize_text(text):
     text = re.sub(r"\s+", " ", text)
     return text.strip()
 
+# Step 5 - make_document
+def make_document(text, source, title):
+    # TODO: wrap text with source and title metadata into a document dict.
+
+    return {'text': text, 'source': source, 'title': title}
+
