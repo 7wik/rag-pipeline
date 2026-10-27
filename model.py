@@ -402,3 +402,35 @@ def reciprocal_rank_fusion(ranked_lists, k=60):
             scores[cid] = scores.get(cid, 0.0) + 1.0 / (k + rank)
     return sorted(scores.items(), key=lambda x: x[1], reverse=True)
 
+# Step 36 - bm25_search
+import math
+from collections import Counter
+def bm25_search(query, chunks, k=5, k1=1.5, b=0.75):
+    q_terms = query.lower().split()
+    docs = [c['text'].lower().split() for c in chunks]
+    N = len(docs)
+    if N == 0 or not q_terms:
+        return []
+    avgdl = sum(len(d) for d in docs) / N
+    df = Counter()
+    for d in docs:
+        df.update(set(d))
+        
+    results = []
+    for i, d in enumerate(docs):
+        tf = Counter(d)
+        dl = len(d)
+        score = 0.0
+        matched = False
+        for t in q_terms:
+            f = tf.get(t, 0)
+            if f == 0:
+                continue
+            matched = True
+            idf = math.log((N - df[t] + 0.5) / (df[t] + 0.5) + 1)
+            score += idf * f * (k1 + 1) / (f + k1 * (1 - b + b * dl / avgdl))
+        if matched:
+            results.append((i, score))
+    results.sort(key=lambda x: x[1], reverse=True)
+    return results[:k]
+
