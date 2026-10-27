@@ -137,3 +137,9 @@ def attach_chunk_metadata(chunks, source):
         result.append({'text': chunk, 'source': source, 'position':i, 'chunk_id': f"{source}::{i}"})
     return result
 
+# Step 11 - load_embedding_model
+from sentence_transformers import SentenceTransformer
+
+def load_embedding_model(model_name):
+    return SentenceTransformer(model_name)
+
