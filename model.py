@@ -123,3 +123,10 @@ def chunk_by_sentences(text, max_chars):
         answer.append(" ".join(chunk))
     return answer
 
+# Step 9 - chunk_with_overlap
+def chunk_with_overlap(text, chunk_size, overlap):
+    chunks = []
+    for i in range(0, len(text), chunk_size - overlap):
+        chunks.append(text[i:i+chunk_size])
+    return chunks
+
