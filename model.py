@@ -386,3 +386,11 @@ def query_rewrite(raw_query):
                 break
     return q.rstrip('?.! ')
 
+# Step 34 - hyde_retrieve
+def hyde_retrieve(query, hypothetical_answer, chunks, embeddings, embed_model, k=5):
+    # TODO: embed the hypothetical answer and return the top-k chunks by cosine similarity.
+    q = np.asarray(embed_text(embed_model, hypothetical_answer), dtype=np.float32)
+    scores = cosine_similarity_search(q, embeddings)
+    topk_chunks = top_k_chunks(scores, chunks, k)
+    return [id_ for id_, s in topk_chunks]
+
