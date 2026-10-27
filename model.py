@@ -290,3 +290,14 @@ def format_context(retrieved):
             context += "\n"
     return context
 
+# Step 26 - truncate_context
+def truncate_context(context, max_chars):
+    if len(context) <= max_chars:
+        return context
+    # Look one char past the limit, so a space right at the boundary counts
+    window = context[:max_chars + 1]
+    cut = max(window.rfind(' '), window.rfind('\n'), window.rfind('\t'))
+    if cut > 0:
+        return context[:cut].rstrip()
+    return context[:max_chars]  # no whitespace: hard cut
+
