@@ -575,3 +575,13 @@ def mean_reciprocal_rank(retrieved_ids_per_query, relevant_ids_per_query):
                 break  # only the first relevant hit counts
     return total / n
 
+# Step 45 - faithfulness_score
+def faithfulness_score(answer, context_chunks):
+    ans_tokens = normalize_text(answer).lower().split()          # list: repeats kept
+    if not ans_tokens:
+        return 0.0
+    ctx_text = " ".join(c['text'] for c in context_chunks)
+    ctx_tokens = set(normalize_text(ctx_text).lower().split())    # set: fast lookup
+    supported = sum(1 for t in ans_tokens if t in ctx_tokens)
+    return supported / len(ans_tokens)
+
