@@ -364,3 +364,25 @@ def append_source_references(answer_text, source_chunks):
     sources = track_source_chunk_ids(source_chunks)
     return f"{answer_text}\nSources: [{', '.join(sources)}]"
 
+# Step 33 - query_rewrite
+FILLERS = [
+    'could you please', 'can you please', 'could you', 'can you',
+    'please tell me', 'tell me', 'i want to know', 'i would like to know',
+    "i'd like to know", 'please', 'kindly',
+]
+
+def query_rewrite(raw_query):
+    q = normalize_text(raw_query).lower()
+    changed = True
+    while changed:
+        changed = False
+        for f in FILLERS:
+            if q == f:
+                q = ''
+                break
+            if q.startswith(f + ''):
+                q = q[len(f) + 1:]
+                changed = True
+                break
+    return q.rstrip('?.! ')
+
