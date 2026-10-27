@@ -301,3 +301,12 @@ def truncate_context(context, max_chars):
         return context[:cut].rstrip()
     return context[:max_chars]  # no whitespace: hard cut
 
+# Step 27 - add_system_instruction
+def add_system_instruction(prompt):
+    """Prepend a fixed system instruction to the prompt."""
+    system = (
+        "You are a helpful assistant. Answer the question using ONLY the "
+        "provided context. If the answer is not in the context, say 'I do not know'."
+    )
+    return system + "\n\n" + prompt
+
