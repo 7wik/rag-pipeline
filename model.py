@@ -202,3 +202,11 @@ def cosine_similarity_search(query_vector, chunk_matrix):
     matrix_norm = np.linalg.norm(chunk_matrix, axis=1)
     return (chunk_matrix @ query_vector) / (vector_norm*matrix_norm)
 
+# Step 17 - top_k_indices
+import numpy as np
+
+def top_k_indices(scores, k):
+    """Return indices of the k highest scores in descending order."""
+    topk = np.argsort(-scores)[:k]
+    return topk
+
