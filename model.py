@@ -466,3 +466,28 @@ def rerank_cross_encoder(query, candidate_chunks, cross_encoder):
     ranked = sorted(zip(candidate_chunks, scores), key=lambda x: x[1], reverse=True)
     return [c for c, s in ranked]
 
+# Step 39 - maximal_marginal_relevance
+def maximal_marginal_relevance(query_embedding, candidate_embeddings, k=5, lambda_param=0.5):
+    C = np.asarray(candidate_embeddings, dtype=float)
+    q = np.asarray(query_embedding, dtype=float)
+    N = len(C)
+    if N == 0 or k <= 0:
+        return []
+    q = q / (np.linalg.norm(q) or 1.0)
+
+    relevance = C @ q          # (N,) similarity to query
+    sim = C @ C.T              # (N, N) candidate-to-candidate similarity
+
+    selected = []
+    remaining = list(range(N))
+    while remaining and len(selected) < k:
+        best_idx, best_score = None, -np.inf
+        for i in remaining:                      # ascending order
+            redundancy = max(sim[i, j] for j in selected) if selected else 0.0
+            score = lambda_param * relevance[i] - (1 - lambda_param) * redundancy
+            if score > best_score:               # strict > → ties keep smaller index
+                best_idx, best_score = i, score
+        selected.append(best_idx)
+        remaining.remove(best_idx)
+    return selected
+
