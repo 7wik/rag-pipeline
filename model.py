@@ -341,3 +341,16 @@ def generate_answer(model, tokenizer, prompt, max_new_tokens=32):
     new_tokens = output[0][inputs['input_ids'].shape[1]:]   # drop the prompt
     return tokenizer.decode(new_tokens, skip_special_tokens=True)
 
+# Step 30 - rag_answer
+def rag_answer(query, chunks, embeddings, embed_model, generator, tokenizer, k=3):
+    query_vec = embed_text(embed_model, query)
+    scores = cosine_similarity_search(query_vec, embeddings)
+    retrieved = top_k_chunks(scores, chunks, k)
+
+    context = format_context(retrieved)
+    prompt = build_prompt_template().format(context=context, question=query)
+    answer = generate_answer(generator, tokenizer, prompt)
+
+    sources = [c for c, s in retrieved]
+    return {'answer': answer, 'sources': sources, 'query': query}
+
