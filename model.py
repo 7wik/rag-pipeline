@@ -491,3 +491,16 @@ def maximal_marginal_relevance(query_embedding, candidate_embeddings, k=5, lambd
         remaining.remove(best_idx)
     return selected
 
+# Step 40 - filter_by_metadata
+def filter_by_metadata(chunks, filter_dict):
+    answer = []
+    for chunk in chunks:
+        use = True
+        for key, val in filter_dict.items():
+            if (key not in chunk['metadata']) or (chunk['metadata'][key] != val):
+                use = False
+                break
+        if use:
+            answer.append(chunk)
+    return answer
+
