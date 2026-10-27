@@ -359,3 +359,8 @@ def track_source_chunk_ids(source_chunks):
     # TODO: return the list of chunk ids from the retrieved source chunks, preserving order
     return [d['id'] for d in source_chunks if 'id' in d]
 
+# Step 32 - append_source_references
+def append_source_references(answer_text, source_chunks):
+    sources = track_source_chunk_ids(source_chunks)
+    return f"{answer_text}\nSources: [{', '.join(sources)}]"
+

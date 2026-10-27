@@ -41,6 +41,7 @@ python scaffold.py
 - [x] **29.** generate_answer
 - [x] **30.** rag_answer
 - [x] **31.** track_source_chunk_ids
+- [x] **32.** append_source_references
 
 ---
 
