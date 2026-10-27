@@ -529,3 +529,21 @@ def build_eval_set():
         },
     ]
 
+# Step 42 - hit_rate_at_k
+def hit_rate_at_k(retrieved_ids_per_query, relevant_ids_per_query, k):
+    n = len(retrieved_ids_per_query)
+    if n == 0:
+        return 0.0
+    ct = 0.0
+    for i in range(n):
+        top_k = set(retrieved_ids_per_query[i][:k])
+        rel = relevant_ids_per_query[i]
+        found = False
+        for id_ in rel:
+            if id_ in top_k:
+                found = True
+                break
+        if found:
+            ct += 1.0
+    return ct / n
+
