@@ -280,3 +280,13 @@ def build_prompt_template():
         "Answer:"
     )
 
+# Step 25 - format_context
+def format_context(retrieved):
+    # TODO: render each (chunk, score) as '[i] {text} (source={source})' and join with newlines
+    context = ""
+    for i, (d, s) in enumerate(retrieved):
+        context += f"[{i+1}] {d['text']} (source={d['source']})"
+        if i != len(retrieved)-1:
+            context += "\n"
+    return context
+
