@@ -434,3 +434,26 @@ def bm25_search(query, chunks, k=5, k1=1.5, b=0.75):
     results.sort(key=lambda x: x[1], reverse=True)
     return results[:k]
 
+# Step 37 - hybrid_search
+def minmax_normalize(vec):
+    vec = np.asarray(vec, dtype=float)
+    small, large = vec.min(), vec.max()
+    if large - small == 0:
+        return np.zeros_like(vec)
+    return (vec - small) / (large - small)
+
+def hybrid_search(query, chunks, embeddings, embed_model, alpha=0.5, k=5):
+    n = len(chunks)
+
+    q_vec = np.asarray(embed_text(embed_model, query), dtype=float)
+    dense = minmax_normalize(cosine_similarity_search(q_vec, embeddings))
+
+    bm25_raw = np.zeros(n)
+    for idx, s in bm25_search(query, chunks, k=n):
+        bm25_raw[idx] = s
+    sparse = minmax_normalize(bm25_raw)
+
+    combined = alpha * dense + (1 - alpha) * sparse
+    order = sorted(range(n), key=lambda i: -combined[i])   # stable → ties keep chunk order
+    return [(i, float(combined[i])) for i in order[:k]]
+
