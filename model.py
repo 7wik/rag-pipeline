@@ -457,3 +457,12 @@ def hybrid_search(query, chunks, embeddings, embed_model, alpha=0.5, k=5):
     order = sorted(range(n), key=lambda i: -combined[i])   # stable → ties keep chunk order
     return [(i, float(combined[i])) for i in order[:k]]
 
+# Step 38 - rerank_cross_encoder
+def rerank_cross_encoder(query, candidate_chunks, cross_encoder):
+    if not candidate_chunks:
+        return []
+    pairs = [(query, c['text']) for c in candidate_chunks]
+    scores = cross_encoder.predict(pairs)
+    ranked = sorted(zip(candidate_chunks, scores), key=lambda x: x[1], reverse=True)
+    return [c for c, s in ranked]
+
