@@ -608,3 +608,20 @@ def handle_no_context(scored_chunks, threshold=0.2):
             return {'abstain': False, 'message': ''}
     return {'abstain': True, 'message': 'I do not know'}
 
+# Step 48 - deduplicate_chunks
+import numpy as np
+
+def deduplicate_chunks(chunks, embeddings, similarity_threshold=0.95):
+    """Drop near-duplicate chunks based on cosine similarity, keeping the first one."""
+    embeddings = np.asarray(embeddings, dtype=float)
+    if len(chunks) == 0:
+        return [], np.zeros((0, 0))
+    kept_idx = []
+    for i in range(len(chunks)):
+        if kept_idx:
+            sims = embeddings[kept_idx] @ embeddings[i]   # cosine, since rows are L2-normalized
+            if np.max(sims) > similarity_threshold:
+                continue                                  # near-duplicate of a kept chunk
+        kept_idx.append(i)
+    return [chunks[i] for i in kept_idx], embeddings[kept_idx]
+
