@@ -27,6 +27,7 @@ python scaffold.py
 - [x] **15.** save_corpus
 - [x] **16.** cosine_similarity_search
 - [x] **17.** top_k_indices
+- [x] **18.** top_k_chunks
 
 ---
 
