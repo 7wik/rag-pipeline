@@ -40,6 +40,7 @@ python scaffold.py
 - [x] **28.** load_generator
 - [x] **29.** generate_answer
 - [x] **30.** rag_answer
+- [x] **31.** track_source_chunk_ids
 
 ---
 
