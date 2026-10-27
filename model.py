@@ -625,3 +625,11 @@ def deduplicate_chunks(chunks, embeddings, similarity_threshold=0.95):
         kept_idx.append(i)
     return [chunks[i] for i in kept_idx], embeddings[kept_idx]
 
+# Step 49 - cache_query_embedding
+def cache_query_embedding(query, embed_model, cache):
+    if query in cache:
+        return cache[query]               # hit: no model call
+    vec = embed_text(embed_model, query)  # miss: compute once
+    cache[query] = vec                    # store in the shared dict (in place)
+    return vec
+
