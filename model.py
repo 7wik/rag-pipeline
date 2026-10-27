@@ -143,3 +143,7 @@ from sentence_transformers import SentenceTransformer
 def load_embedding_model(model_name):
     return SentenceTransformer(model_name)
 
+# Step 12 - embed_text
+def embed_text(model, text):
+    return model.encode(text)
+
