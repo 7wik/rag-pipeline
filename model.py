@@ -258,3 +258,14 @@ def compare_faiss_to_numpy(query_vector, chunk_matrix, index, k):
     _, faiss_topk = faiss_search(faiss_index, query_vector, k)
     return np.array_equal(faiss_topk, css_topk)
 
+# Step 23 - save_faiss_index
+def save_faiss_index(index, path):
+    """Write `index` to `path` and return the index loaded back from disk."""
+    # TODO: persist the index to `path` and reload it; return the reloaded index
+    os.makedirs(path, exist_ok=True)
+    faiss.write_index(index, f"{path}/faiss_index.bin")
+
+    # Load the index back from disk later
+    index = faiss.read_index(f"{path}/faiss_index.bin")
+    return index
+
