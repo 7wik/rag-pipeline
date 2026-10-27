@@ -325,3 +325,19 @@ def load_generator(model_name='sshleifer/tiny-gpt2'):
     model.eval()  # inference mode (turns off dropout)
     return model, tokenizer
 
+# Step 29 - generate_answer
+import torch
+
+def generate_answer(model, tokenizer, prompt, max_new_tokens=32):
+    torch.manual_seed(0)
+    inputs = tokenizer(prompt, return_tensors='pt')
+    with torch.no_grad():
+        output = model.generate(
+            **inputs,
+            max_new_tokens=max_new_tokens,
+            do_sample=False,                       # greedy
+            pad_token_id=tokenizer.pad_token_id,
+        )
+    new_tokens = output[0][inputs['input_ids'].shape[1]:]   # drop the prompt
+    return tokenizer.decode(new_tokens, skip_special_tokens=True)
+
