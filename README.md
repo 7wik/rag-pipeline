@@ -24,6 +24,7 @@ python scaffold.py
 - [x] **12.** embed_text
 - [x] **13.** embed_chunks
 - [x] **14.** l2_normalize
+- [x] **15.** save_corpus
 
 ---
 
