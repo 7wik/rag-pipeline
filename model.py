@@ -599,3 +599,12 @@ def relevance_score(answer, question):
         return 0.0
     return len(a & q) / len(a | q)
 
+# Step 47 - handle_no_context
+def handle_no_context(scored_chunks, threshold=0.2):
+    """Return {'abstain': bool, 'message': str} based on top score vs threshold."""
+    for item in scored_chunks:
+        s = item['score'] if isinstance(item, dict) else item[1]
+        if s > threshold:
+            return {'abstain': False, 'message': ''}
+    return {'abstain': True, 'message': 'I do not know'}
+
