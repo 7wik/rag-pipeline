@@ -310,3 +310,18 @@ def add_system_instruction(prompt):
     )
     return system + "\n\n" + prompt
 
+# Step 28 - load_generator
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+def load_generator(model_name='sshleifer/tiny-gpt2'):
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(model_name)
+
+    # GPT-2 has no pad token by default, so reuse the end-of-sequence token
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+        model.config.pad_token_id = tokenizer.eos_token_id
+
+    model.eval()  # inference mode (turns off dropout)
+    return model, tokenizer
+
