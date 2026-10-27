@@ -235,3 +235,17 @@ def build_faiss_index(chunk_matrix):
     index.add(chunk_matrix)
     return index
 
+# Step 21 - faiss_search
+import numpy as np
+import faiss
+
+def faiss_search(index, query_vector, k):
+    """Return top-k (scores, indices) as 1D arrays for a single query vector."""
+    # TODO: query the FAISS index with the single query vector and return flat top-k arrays
+    q = np.asarray(query_vector, dtype=np.float32).reshape(1, -1)
+    n = min(index.ntotal, k+1)
+    scores, indices = index.search(q, n)
+    scores, indices = scores[0], indices[0]
+    order = np.lexsort((indices, -scores))[:k]
+    return scores[order].astype(np.float32), indices[order].astype(np.int64)
+
