@@ -547,3 +547,17 @@ def hit_rate_at_k(retrieved_ids_per_query, relevant_ids_per_query, k):
             ct += 1.0
     return ct / n
 
+# Step 43 - recall_at_k
+def recall_at_k(retrieved_ids_per_query, relevant_ids_per_query, k):
+    n = len(retrieved_ids_per_query)
+    score = 0.0
+    for i in range(n):
+        rel = relevant_ids_per_query[i]
+        ret = set(retrieved_ids_per_query[i][:k])
+        ct = 0.0
+        for id_ in rel:
+            if id_ in ret:
+                ct += 1.0
+        score += ct/len(rel) if len(rel) > 0 else 0.0
+    return score / n
+
