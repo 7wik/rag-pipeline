@@ -23,6 +23,7 @@ python scaffold.py
 - [x] **11.** load_embedding_model
 - [x] **12.** embed_text
 - [x] **13.** embed_chunks
+- [x] **14.** l2_normalize
 
 ---
 
