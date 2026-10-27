@@ -394,3 +394,11 @@ def hyde_retrieve(query, hypothetical_answer, chunks, embeddings, embed_model, k
     topk_chunks = top_k_chunks(scores, chunks, k)
     return [id_ for id_, s in topk_chunks]
 
+# Step 35 - reciprocal_rank_fusion
+def reciprocal_rank_fusion(ranked_lists, k=60):
+    scores = {}
+    for ranked in ranked_lists:
+        for rank, cid in enumerate(ranked, start=1):
+            scores[cid] = scores.get(cid, 0.0) + 1.0 / (k + rank)
+    return sorted(scores.items(), key=lambda x: x[1], reverse=True)
+
