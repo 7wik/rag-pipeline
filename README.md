@@ -53,6 +53,7 @@ python scaffold.py
 - [x] **41.** build_eval_set
 - [x] **42.** hit_rate_at_k
 - [x] **43.** recall_at_k
+- [x] **44.** mean_reciprocal_rank
 
 ---
 

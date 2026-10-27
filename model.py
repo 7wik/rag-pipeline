@@ -561,3 +561,17 @@ def recall_at_k(retrieved_ids_per_query, relevant_ids_per_query, k):
         score += ct/len(rel) if len(rel) > 0 else 0.0
     return score / n
 
+# Step 44 - mean_reciprocal_rank
+def mean_reciprocal_rank(retrieved_ids_per_query, relevant_ids_per_query):
+    n = len(retrieved_ids_per_query)
+    if n == 0:
+        return 0.0
+    total = 0.0
+    for retrieved, relevant in zip(retrieved_ids_per_query, relevant_ids_per_query):
+        rel = set(relevant)
+        for rank, cid in enumerate(retrieved, start=1):
+            if cid in rel:
+                total += 1.0 / rank
+                break  # only the first relevant hit counts
+    return total / n
+
