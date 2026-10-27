@@ -221,3 +221,10 @@ def top_k_chunks(scores, chunks, k):
         answer.append((chunks[i], scores[i].item()))
     return answer
 
+# Step 19 - retrieve
+def retrieve(query, model, chunk_matrix, chunks, k):
+    embedding = embed_text(model, query)
+    scores = cosine_similarity_search(embedding, chunk_matrix)
+    topk_chunks = top_k_chunks(scores, chunks, k)
+    return topk_chunks
+
