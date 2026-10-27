@@ -585,3 +585,17 @@ def faithfulness_score(answer, context_chunks):
     supported = sum(1 for t in ans_tokens if t in ctx_tokens)
     return supported / len(ans_tokens)
 
+# Step 46 - relevance_score
+def jaccard(a_tokens, b_tokens):
+    a, b = set(a_tokens), set(b_tokens)
+    if not a and not b:
+        return 0.0          # or 1.0, depending on the convention the task wants
+    return len(a & b) / len(a | b)
+
+def relevance_score(answer, question):
+    a = set(re.findall(r"\w+", normalize_text(answer).lower()))
+    q = set(re.findall(r"\w+", normalize_text(question).lower()))
+    if not a and not q:
+        return 0.0
+    return len(a & q) / len(a | q)
+

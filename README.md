@@ -55,6 +55,7 @@ python scaffold.py
 - [x] **43.** recall_at_k
 - [x] **44.** mean_reciprocal_rank
 - [x] **45.** faithfulness_score
+- [x] **46.** relevance_score
 
 ---
 
