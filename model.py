@@ -249,3 +249,12 @@ def faiss_search(index, query_vector, k):
     order = np.lexsort((indices, -scores))[:k]
     return scores[order].astype(np.float32), indices[order].astype(np.int64)
 
+# Step 22 - compare_faiss_to_numpy
+def compare_faiss_to_numpy(query_vector, chunk_matrix, index, k):
+    # TODO: return True iff FAISS and numpy cosine search agree on the top-k indices
+    css = cosine_similarity_search(query_vector, chunk_matrix)
+    css_topk = top_k_indices(css, k)
+    faiss_index = build_faiss_index(chunk_matrix)
+    _, faiss_topk = faiss_search(faiss_index, query_vector, k)
+    return np.array_equal(faiss_topk, css_topk)
+
